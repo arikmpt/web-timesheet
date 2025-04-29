@@ -1,0 +1,15 @@
+# Ignore build output
+build/
+dist/
+.next/
+
+# Ignore dependencies
+node_modules/
+
+# Ignore configuration files
+*.config.js
+eslint.config.mjs
+
+# Ignore JSON logs or data
+*.log
+*.json
