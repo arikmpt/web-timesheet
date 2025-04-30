@@ -18,68 +18,99 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
+import { useProfileStore } from '@/lib/store/profile';
+import { Skeleton } from '../ui/skeleton';
+import { useAuthStore } from '@/lib/store/auth';
+import { routes } from '@/constants/routes';
+import { useRouter } from 'next/navigation';
 
 export function NavUser() {
   const { isMobile } = useSidebar();
+  const { profile } = useProfileStore((state) => state);
+  const { logout } = useAuthStore((state) => state);
+  const router = useRouter();
+
+  const onLogout = () => {
+    logout();
+    window.location.href = routes.LOGIN;
+  };
+
+  const goToProfile = () => {
+    router.push(routes.PROFILE);
+  };
+
+  const goToChangePassword = () => {
+    router.push(routes.CHANGE_PASSWORD);
+  };
 
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              size='lg'
-              className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
-            >
-              <Avatar className='h-8 w-8 rounded-lg'>
-                <AvatarFallback className='rounded-lg'>CN</AvatarFallback>
-              </Avatar>
-              <div className='grid flex-1 text-left text-sm leading-tight'>
-                <span className='truncate font-semibold'>{'John Doe'}</span>
-                <span className='truncate text-xs'>
-                  {'example@example.com'}
-                </span>
-              </div>
-              <ChevronsUpDown className='ml-auto size-4' />
-            </SidebarMenuButton>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className='w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg'
-            side={isMobile ? 'bottom' : 'right'}
-            align='end'
-            sideOffset={4}
-          >
-            <DropdownMenuLabel className='p-0 font-normal'>
-              <div className='flex items-center gap-2 px-1 py-1.5 text-left text-sm'>
+        {!profile ? (
+          <div className='flex items-center space-x-4'>
+            <Skeleton className='h-8 w-8 rounded-full' />
+            <div className='space-y-2'>
+              <Skeleton className='h-4 w-[200px]' />
+              <Skeleton className='h-4 w-[200px]' />
+            </div>
+          </div>
+        ) : (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <SidebarMenuButton
+                size='lg'
+                className='data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground'
+              >
                 <Avatar className='h-8 w-8 rounded-lg'>
                   <AvatarFallback className='rounded-lg'>CN</AvatarFallback>
                 </Avatar>
                 <div className='grid flex-1 text-left text-sm leading-tight'>
-                  <span className='truncate font-semibold'>{'John Doe'}</span>
+                  <span className='truncate font-semibold'>{`${profile?.firstName} ${profile?.lastName}`}</span>
                   <span className='truncate text-xs'>
-                    {'example@example.com'}
+                    {profile?.user.email}
                   </span>
                 </div>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <User />
-                Edit Profile
+                <ChevronsUpDown className='ml-auto size-4' />
+              </SidebarMenuButton>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className='w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg'
+              side={isMobile ? 'bottom' : 'right'}
+              align='end'
+              sideOffset={4}
+            >
+              <DropdownMenuLabel className='p-0 font-normal'>
+                <div className='flex items-center gap-2 px-1 py-1.5 text-left text-sm'>
+                  <Avatar className='h-8 w-8 rounded-lg'>
+                    <AvatarFallback className='rounded-lg'>CN</AvatarFallback>
+                  </Avatar>
+                  <div className='grid flex-1 text-left text-sm leading-tight'>
+                    <span className='truncate font-semibold'>{`${profile?.firstName} ${profile?.lastName}`}</span>
+                    <span className='truncate text-xs'>
+                      {profile?.user.email}
+                    </span>
+                  </div>
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem onClick={goToProfile}>
+                  <User />
+                  Edit Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={goToChangePassword}>
+                  <CogIcon />
+                  Change Password
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={onLogout}>
+                <LogOut />
+                Log out
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CogIcon />
-                Change Password
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut />
-              Log out
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </SidebarMenuItem>
     </SidebarMenu>
   );
