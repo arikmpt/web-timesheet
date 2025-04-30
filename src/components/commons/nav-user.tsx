@@ -22,15 +22,21 @@ import { useProfileStore } from '@/lib/store/profile';
 import { Skeleton } from '../ui/skeleton';
 import { useAuthStore } from '@/lib/store/auth';
 import { routes } from '@/constants/routes';
+import { useRouter } from 'next/navigation';
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const { profile } = useProfileStore((state) => state);
   const { logout } = useAuthStore((state) => state);
+  const router = useRouter();
 
   const onLogout = () => {
     logout();
     window.location.href = routes.LOGIN;
+  };
+
+  const goToProfile = () => {
+    router.push(routes.PROFILE);
   };
 
   return (
@@ -84,7 +90,7 @@ export function NavUser() {
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={goToProfile}>
                   <User />
                   Edit Profile
                 </DropdownMenuItem>

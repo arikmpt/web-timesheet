@@ -8,20 +8,29 @@ export const getProfile = async () => {
     .catch(defaultApiErrorHandler);
 };
 
+export const updateProfile = async (request: UpdateProfileRequest) => {
+  return await api
+    .put<GetProfilResponse>('/auth/profile', request)
+    .then(getApiData)
+    .catch(defaultApiErrorHandler);
+};
+
 interface GetProfilResponse {
   profile: Profile;
 }
 
 export interface Profile {
-  id: 1;
+  id: number;
   firstName: string;
   lastName: string;
-  countryCode: string;
-  contactNumber: string;
-  birthOfDate: string;
-  placeOfBirth: string;
-  address: string;
+  countryCode: string | null;
+  contactNumber: string | null;
+  birthOfDate: Date | string | null;
+  placeOfBirth: string | null;
+  address: string | null;
   user: {
     email: string;
   };
 }
+
+type UpdateProfileRequest = Partial<Profile>;

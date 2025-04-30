@@ -6,19 +6,18 @@ import {
   FormMessage,
 } from '../ui/form';
 import { Control, FieldValues, Path } from 'react-hook-form';
-import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
 
 type IProps<T extends FieldValues> = Pick<
-  React.ComponentProps<'input'>,
-  'placeholder' | 'type' | 'disabled'
+  React.ComponentProps<'textarea'>,
+  'placeholder' | 'disabled'
 > & {
   name: Path<T>;
   control: Control<T, object>;
   label?: string;
 };
 
-export default function FormInput<T extends FieldValues>({
-  type,
+export default function FormTextArea<T extends FieldValues>({
   placeholder,
   name,
   control,
@@ -33,9 +32,8 @@ export default function FormInput<T extends FieldValues>({
         <FormItem>
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
-            <Input
+            <Textarea
               placeholder={placeholder}
-              type={type}
               disabled={disabled}
               defaultValue={field.value}
               onChange={field.onChange}
