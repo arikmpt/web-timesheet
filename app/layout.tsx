@@ -1,6 +1,7 @@
 import { Roboto, Roboto_Mono } from 'next/font/google';
 import './globals.css';
 import QueryProvider from '@/providers/query-provider';
+import { Toaster } from '@/components/ui/sonner';
 
 const robotoSans = Roboto({
   variable: '--font-roboto-sains',
@@ -22,7 +23,19 @@ export default function RootLayout({
       <body
         className={`${robotoSans.variable} ${robotoMono.variable} antialiased`}
       >
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          {children}
+          <Toaster
+            toastOptions={{
+              unstyled: false,
+              classNames: {
+                error: '!bg-destructive !text-white !border-0',
+                success: '!bg-green-600 !text-white !border-0',
+                description: '!text-white',
+              },
+            }}
+          />
+        </QueryProvider>
       </body>
     </html>
   );
