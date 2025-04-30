@@ -4,7 +4,13 @@ import { ComboBox } from '@/components/commons/combo-box';
 import FormInput from '@/components/commons/form-input';
 import FormTextArea from '@/components/commons/form-text-area';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Form, FormLabel } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { updateProfile } from '@/lib/api/profile';
@@ -182,6 +188,9 @@ export default function ProfileContainer() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='w-1/2'>
             <Card className='w-full'>
+              <CardHeader>
+                <CardTitle>Update Profile</CardTitle>
+              </CardHeader>
               <CardContent>
                 <div className='grid w-full items-center gap-4'>
                   <div className='flex flex-col space-y-1.5'>

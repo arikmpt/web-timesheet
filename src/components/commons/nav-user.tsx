@@ -39,6 +39,10 @@ export function NavUser() {
     router.push(routes.PROFILE);
   };
 
+  const goToChangePassword = () => {
+    router.push(routes.CHANGE_PASSWORD);
+  };
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -94,7 +98,7 @@ export function NavUser() {
                   <User />
                   Edit Profile
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={goToChangePassword}>
                   <CogIcon />
                   Change Password
                 </DropdownMenuItem>

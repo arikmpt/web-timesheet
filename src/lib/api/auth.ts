@@ -8,6 +8,13 @@ export const login = async (request: GetLoginRequest) => {
     .catch(defaultApiErrorHandler);
 };
 
+export const changePassword = async (request: ChangePasswordRequest) => {
+  return await api
+    .put<ChangePasswordResponse>('/auth/change-password', request)
+    .then(getApiData)
+    .catch(defaultApiErrorHandler);
+};
+
 interface GetLoginRequest {
   email: string;
   password: string;
@@ -15,4 +22,14 @@ interface GetLoginRequest {
 
 interface GetLoginResponse {
   token: string;
+}
+
+interface ChangePasswordRequest {
+  oldPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+interface ChangePasswordResponse {
+  message: string;
 }
