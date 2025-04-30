@@ -31,6 +31,7 @@ import logo from '../../../public/logo.jpg';
 import { useProfile } from '@/hooks/queries/use-profile';
 import { useProfileStore } from '@/lib/store/profile';
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const menus = useMenu();
@@ -82,12 +83,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                             {item.items?.map((subItem) => (
                               <SidebarMenuSubItem key={subItem.title}>
                                 <SidebarMenuSubButton asChild>
-                                  <a
+                                  <Link
                                     href={subItem.url}
                                     className='hover:bg-transparent hover:!text-foreground active:!text-foreground'
                                   >
                                     <span>{subItem.title}</span>
-                                  </a>
+                                  </Link>
                                 </SidebarMenuSubButton>
                               </SidebarMenuSubItem>
                             ))}
@@ -104,10 +105,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         tooltip={item.title}
                         asChild
                       >
-                        <a href={item.url}>
+                        <Link href={item.url}>
                           {item.icon && <item.icon />}
                           <span>{item.title}</span>
-                        </a>
+                        </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   );
