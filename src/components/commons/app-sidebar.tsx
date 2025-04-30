@@ -28,10 +28,22 @@ import { NavUser } from './nav-user';
 import useMenu from '@/hooks/use-menu';
 import Image from 'next/image';
 import logo from '../../../public/logo.jpg';
+import { useProfile } from '@/hooks/queries/use-profile';
+import { useProfileStore } from '@/lib/store/profile';
+import { useEffect } from 'react';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const menus = useMenu();
   const { open } = useSidebar();
+
+  const { data, isLoading } = useProfile();
+  const { setProfile } = useProfileStore((state) => state);
+
+  useEffect(() => {
+    if (data && !isLoading) {
+      setProfile(data.profile);
+    }
+  }, [data, isLoading, setProfile]);
 
   return (
     <Sidebar collapsible='icon' className='select-none' {...props}>
